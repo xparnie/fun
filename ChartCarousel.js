@@ -76,47 +76,47 @@ define(function(require) {
     };
 
     ChartCarousel.prototype.setupHandlers = function() {
-    	this.onClickHandler = this.onClick.bind(this);
-    	this.onClickThumbnailHandler = this.onClickThumbnail.bind(this);
+        this.onClickHandler = this.onClick.bind(this);
+        this.onClickThumbnailHandler = this.onClickThumbnail.bind(this);
 
-    	return this;
+        return this;
     };
 
     ChartCarousel.prototype.createChildren = function() {
-    	// Charts
-    	this.$chartSlide = this.$element.find('.chartSlide');
+        // Charts
+        this.$chartSlide = this.$element.find('.chartSlide');
 
-    	// Buttons
-    	this.$controlButton = this.$element.find('.carousel-button');
+        // Buttons
+        this.$controlButton = this.$element.find('.carousel-button');
 
-    	// Thumbnails
-    	this.$chartSlideThumb = this.$element.find('.chartThumbSlide');
-    	this.$chartSlideThumbWrapper = this.$element.find('.carouselThumbnail');
+        // Thumbnails
+        this.$chartSlideThumb = this.$element.find('.chartThumbSlide');
+        this.$chartSlideThumbWrapper = this.$element.find('.carouselThumbnail');
 
-    	// Total Slides
-    	this.$totalNumberofSlides = this.$element.find('.carousel-length');
+        // Total Slides
+        this.$totalNumberofSlides = this.$element.find('.carousel-length');
 
-    	// Current Slide Index
-    	this.$currentSlideIndex = this.$element.find('.carousel-current');
+        // Current Slide Index
+        this.$currentSlideIndex = this.$element.find('.carousel-current');
 
-    	return this;
+        return this;
     };
 
     ChartCarousel.prototype.layout = function() {
         // sets numberOfSlides / 0 based 
         this.numberOfSlides = this.$chartSlideThumb.length - 1;
 
-    	// adds class of isActive to first thumbnail on load
-    	this.$chartSlideThumb.first().addClass(SELECTORS.IS_ACTIVE);
+        // adds class of isActive to first thumbnail on load
+        this.$chartSlideThumb.first().addClass(SELECTORS.IS_ACTIVE);
 
-    	// gets total number of slides and adds valie to .carousel-length
-    	this.$totalNumberofSlides.append(this.numberOfSlides + 1);
+        // gets total number of slides and adds valie to .carousel-length
+        this.$totalNumberofSlides.append(this.numberOfSlides + 1);
 
-    	return this;
+        return this;
     };
 
     ChartCarousel.prototype.enable = function() {
-    	if (this.isEnabled) {
+        if (this.isEnabled) {
             return this;
         }
 
@@ -124,8 +124,8 @@ define(function(require) {
         this.$chartSlideThumb.on('click', this.onClickThumbnailHandler);
         
         this.isEnabled = true;
-    	
-    	return this;
+        
+        return this;
     };
 
     ChartCarousel.prototype.onClickThumbnail = function(e, index) {
@@ -163,80 +163,80 @@ define(function(require) {
     };
 
     ChartCarousel.prototype.showNextSlide = function() {
-    	// adds positive counter to index when element is clicked
-    	var currentSlideIndex = this.index++;
+        // adds positive counter to index when element is clicked
+        var currentSlideIndex = this.index++;
 
-    	// resets index if you're on the last slide and hit next
-    	if (currentSlideIndex === this.numberOfSlides) {
-    		this.index = 0;
-    	}
+        // resets index if you're on the last slide and hit next
+        if (currentSlideIndex === this.numberOfSlides) {
+            this.index = 0;
+        }
 
-    	// fires updateSlideDisplay if index is less than or equal to total number of slides
-    	if (this.index <= this.numberOfSlides) {
-    		this.updateSlideDisplay(this.index);
-    	}
+        // fires updateSlideDisplay if index is less than or equal to total number of slides
+        if (this.index <= this.numberOfSlides) {
+            this.updateSlideDisplay(this.index);
+        }
 
-    	return this;
+        return this;
     };
 
     ChartCarousel.prototype.showPreviousSlide = function() {
-    	// adds negative counter to index when element is clicked
-    	var currentSlideIndex = this.index--;
+        // adds negative counter to index when element is clicked
+        var currentSlideIndex = this.index--;
 
-    	// sets the index to number of slides if you're on the first - 0 based
-    	if (currentSlideIndex === 0) {
-    		this.index = this.numberOfSlides;
-    	}
+        // sets the index to number of slides if you're on the first - 0 based
+        if (currentSlideIndex === 0) {
+            this.index = this.numberOfSlides;
+        }
 
-    	// fires updateSlideDisplay if index is less than or equal to total number of slides
-    	if (this.index <= this.numberOfSlides) {
-    		this.updateSlideDisplay(this.index);
-    	}
+        // fires updateSlideDisplay if index is less than or equal to total number of slides
+        if (this.index <= this.numberOfSlides) {
+            this.updateSlideDisplay(this.index);
+        }
 
-    	return this;
+        return this;
     };
 
     ChartCarousel.prototype.updateSlideDisplay = function(index) {
-    	// removes isActive Class from all thumbnails
-    	this.$chartSlideThumb.removeClass(SELECTORS.IS_ACTIVE);
+        // removes isActive Class from all thumbnails
+        this.$chartSlideThumb.removeClass(SELECTORS.IS_ACTIVE);
 
-    	// hides all charts and based on index, fades in chart according to current index value
-    	this.$chartSlide.hide().eq(index).fadeIn();
+        // hides all charts and based on index, fades in chart according to current index value
+        this.$chartSlide.hide().eq(index).fadeIn();
 
-    	// adds isActive class to thumbnail based on index
-    	this.$chartSlideThumb.eq(this.index).addClass(SELECTORS.IS_ACTIVE);
+        // adds isActive class to thumbnail based on index
+        this.$chartSlideThumb.eq(this.index).addClass(SELECTORS.IS_ACTIVE);
 
-    	// if you go from first slide to the last slide, this handles the animation to the fourth to last slide
-    	// so there's always 4 per page
-    	if (index === this.numberOfSlides - 1) {
-    		this.animateThumbnails(this.numberOfSlides - 3);
+        // if you go from first slide to the last slide, this handles the animation to the fourth to last slide
+        // so there's always 4 per page
+        if (index === this.numberOfSlides - 1) {
+            this.animateThumbnails(this.numberOfSlides - 3);
 
-    		return this.updateSlideIndex(index);
-    	}
+            return this.updateSlideIndex(index);
+        }
 
-    	// if you're on any of the last 4 slides, this exits out before the animation
-    	if (index >= this.numberOfSlides - 3) {
-    		return this.updateSlideIndex(index);
-    	}
+        // if you're on any of the last 4 slides, this exits out before the animation
+        if (index >= this.numberOfSlides - 3) {
+            return this.updateSlideIndex(index);
+        }
 
-    	this.animateThumbnails(index);
+        this.animateThumbnails(index);
     };
 
     ChartCarousel.prototype.animateThumbnails = function(index, animate) {
-    	// animates thumbnails by getting the width of the thumbnail and multiplying by the index negatively
-    	this.$chartSlideThumb.animate({
+        // animates thumbnails by getting the width of the thumbnail and multiplying by the index negatively
+        this.$chartSlideThumb.animate({
             // gets outerWidth of thumbnails, adds true to take into account margin
-    		left: this.$chartSlideThumb.outerWidth(true) * -index
-    	});
+            left: this.$chartSlideThumb.outerWidth(true) * -index
+        });
 
-    	this.updateSlideIndex(index);
+        this.updateSlideIndex(index);
     };
 
     ChartCarousel.prototype.updateSlideIndex = function(index) {
-    	// emptys out element and appends the current slide index + 1 (not 0 based)
-    	this.$currentSlideIndex.empty().append(index + 1);
+        // emptys out element and appends the current slide index + 1 (not 0 based)
+        this.$currentSlideIndex.empty().append(index + 1);
 
-    	return this;
+        return this;
     };
 
     return ChartCarousel;
